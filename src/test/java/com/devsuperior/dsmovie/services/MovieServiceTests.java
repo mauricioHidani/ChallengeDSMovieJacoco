@@ -32,7 +32,6 @@ public class MovieServiceTests {
 	
 	@InjectMocks
 	private MovieService service;
-	
 
 	@Mock
 	private MovieRepository repository;
@@ -71,6 +70,24 @@ public class MovieServiceTests {
 	@Test
 	@DisplayName("Find All Movies Should Return Page Movie Data Transfer Object")
 	public void findAllShouldReturnPagedMovieDTO() {
+		var result = service.findAll(title, pageable);
+
+		verify(repository, times(1))
+				.searchByTitle(
+						any(String.class), any(Pageable.class)
+				);
+
+		assertAll("Verifying all elements are instance of MovieDTO",
+			() -> assertTrue(result.getSize() > 0, "Result should not be empty"),
+			() -> result.forEach(movie -> {
+				assertTrue(movie instanceof MovieDTO);
+				assertEquals(movie.getId(), movieDTO.getId());
+				assertEquals(movie.getTitle(), movieDTO.getTitle());
+				assertEquals(movie.getScore(), movieDTO.getScore());
+				assertEquals(movie.getCount(), movieDTO.getCount());
+				assertEquals(movie.getImage(), movieDTO.getImage());
+			})
+		);
 	}
 	
 	@Test
