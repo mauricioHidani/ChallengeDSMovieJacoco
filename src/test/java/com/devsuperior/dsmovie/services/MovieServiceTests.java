@@ -175,6 +175,11 @@ public class MovieServiceTests {
 	@Test
 	@DisplayName("Delete Movie Should Throw Resource Not Found Exception When Id Does Not Exist")
 	public void deleteShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
+		when(repository.existsById(1000L)).thenReturn(false);
+
+		assertThrows(ResourceNotFoundException.class, () -> service.delete(1000L));
+
+		verify(repository, times(1)).existsById(any(Long.class));
 	}
 	
 	@Test
