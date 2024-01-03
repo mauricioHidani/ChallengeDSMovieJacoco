@@ -81,6 +81,13 @@ public class UserServiceTests {
 	@Test
 	@DisplayName("Authenticated Should Throw Username Not Found Exception When User Does Not Exists")
 	public void authenticatedShouldThrowUsernameNotFoundExceptionWhenUserDoesNotExists() {
+		when(userUtil.getLoggedUsername()).thenReturn(noExistingUsername);
+		when(repository.findByUsername(noExistingUsername)).thenReturn(Optional.empty());
+
+		assertThrows(UsernameNotFoundException.class, () -> service.authenticated());
+
+		verify(userUtil, times(1)).getLoggedUsername();
+		verify(repository, times(1)).findByUsername(any(String.class));
 	}
 
 	@Test
