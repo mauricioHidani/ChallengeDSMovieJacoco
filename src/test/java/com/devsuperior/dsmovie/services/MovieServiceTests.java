@@ -138,6 +138,17 @@ public class MovieServiceTests {
 	@Test
 	@DisplayName("Update Movie Should Return Video DT When Id Exists")
 	public void updateShouldReturnMovieDTOWhenIdExists() {
+		var result = service.update(movieDTO.getId(), movieDTO);
+
+		verify(repository, times(1)).getReferenceById(any(Long.class));
+		verify(repository, times(1)).save(any(MovieEntity.class));
+
+		assertTrue(result instanceof MovieDTO);
+		assertEquals(result.getId(), movieDTO.getId());
+		assertEquals(result.getTitle(), movieDTO.getTitle());
+		assertEquals(result.getScore(), movieDTO.getScore());
+		assertEquals(result.getCount(), movieDTO.getCount());
+		assertEquals(result.getImage(), movieDTO.getImage());
 	}
 	
 	@Test
