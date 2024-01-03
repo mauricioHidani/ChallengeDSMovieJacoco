@@ -154,6 +154,13 @@ public class MovieServiceTests {
 	@Test
 	@DisplayName("Update Movie Should Throw Resource Not Found Exception When Id Does Not Exist")
 	public void updateShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
+		var noExistingId = 1000L;
+
+		when(repository.getReferenceById(noExistingId)).thenThrow(EntityNotFoundException.class);
+
+		assertThrows(ResourceNotFoundException.class, () -> service.update(noExistingId, movieDTO));
+
+		verify(repository, times(1)).getReferenceById(any(Long.class));
 	}
 	
 	@Test
