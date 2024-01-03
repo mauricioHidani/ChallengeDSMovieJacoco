@@ -166,6 +166,10 @@ public class MovieServiceTests {
 	@Test
 	@DisplayName("Delete Movie Should Do Nothing When Id Exists")
 	public void deleteShouldDoNothingWhenIdExists() {
+		service.delete(1L);
+
+		verify(repository, times(1)).existsById(any(Long.class));
+		verify(repository, times(1)).deleteById(any(Long.class));
 	}
 	
 	@Test
