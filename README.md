@@ -39,7 +39,6 @@ erDiagram
         Double value
     }
     USER }o--|{ ROLE : "has"
-    USER }o--o{ MOVIE : "evaluate"
     MOVIE ||..o{ SCORE : "evaluate"
     USER ||..o{ SCORE : "evaluate"
 ```
