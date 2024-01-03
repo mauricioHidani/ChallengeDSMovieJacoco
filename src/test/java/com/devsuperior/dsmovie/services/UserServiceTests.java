@@ -65,6 +65,17 @@ public class UserServiceTests {
 	@Test
 	@DisplayName("Authenticated Should Return User Entity When User Exists")
 	public void authenticatedShouldReturnUserEntityWhenUserExists() {
+		var result = service.authenticated();
+
+		verify(userUtil, times(1)).getLoggedUsername();
+		verify(repository, times(1)).findByUsername(any());
+
+		assertNotNull(result);
+		assertEquals(result.getId(), userEntity.getId());
+		assertEquals(result.getName(), userEntity.getName());
+		assertEquals(result.getUsername(), userEntity.getUsername());
+		assertEquals(result.getPassword(), userEntity.getPassword());
+		assertTrue(result.getAuthorities().containsAll(userEntity.getAuthorities()));
 	}
 
 	@Test
