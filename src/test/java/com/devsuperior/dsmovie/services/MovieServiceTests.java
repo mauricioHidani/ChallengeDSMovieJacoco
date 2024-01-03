@@ -108,6 +108,16 @@ public class MovieServiceTests {
 	@Test
 	@DisplayName("Find By Id Movie Should Throw Resource Not Found Exception When Id Does Not Exists")
 	public void findByIdShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
+		var noExistingId = 1000L;
+
+		when(repository.findById(noExistingId)).thenReturn(Optional.empty());
+
+		assertThrows(
+			ResourceNotFoundException.class,
+			() -> service.findById(noExistingId)
+		);
+
+		verify(repository, times(1)).findById(any(Long.class));
 	}
 	
 	@Test
