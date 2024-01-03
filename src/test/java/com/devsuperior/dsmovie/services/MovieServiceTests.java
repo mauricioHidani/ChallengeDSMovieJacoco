@@ -185,5 +185,12 @@ public class MovieServiceTests {
 	@Test
 	@DisplayName("Delete Movie Should Throw Database Exception When Dependent Id")
 	public void deleteShouldThrowDatabaseExceptionWhenDependentId() {
+		when(repository.existsById(2L)).thenReturn(true);
+		doThrow(DataIntegrityViolationException.class).when(repository).deleteById(2L);
+
+		assertThrows(DatabaseException.class, () -> service.delete(2L));
+
+		verify(repository, times(1)).existsById(any(Long.class));
+		verify(repository, times(1)).deleteById(any(Long.class));
 	}
 }
