@@ -86,5 +86,10 @@ public class ScoreServiceTests {
 	@Test
 	@DisplayName("Save Movie Score Should Throw Resource Not Found Exception When Non Existing Movie Id")
 	public void saveScoreShouldThrowResourceNotFoundExceptionWhenNonExistingMovieId() {
+		when(movieRepository.findById(1L)).thenReturn(Optional.empty());
+
+		assertThrows(ResourceNotFoundException.class, () -> service.saveScore(scoreDTO));
+
+		verify(movieRepository, times(1)).findById(any(Long.class));
 	}
 }
