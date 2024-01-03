@@ -68,6 +68,19 @@ public class ScoreServiceTests {
 	@Test
 	@DisplayName("Save Movie Score Should Return Movie DTO")
 	public void saveScoreShouldReturnMovieDTO() {
+		var result = service.saveScore(scoreDTO);
+
+		verify(userService, times(1)).authenticated();
+		verify(movieRepository, times(1)).findById(any(Long.class));
+		verify(scoreRepository, times(1)).saveAndFlush(any(ScoreEntity.class));
+		verify(movieRepository, times(1)).save(any(MovieEntity.class));
+
+		assertNotNull(result);
+		assertTrue(result instanceof MovieDTO);
+		assertEquals(result.getScore() * result.getCount(), result.getScore());
+		assertEquals(result.getScore(), movieEntity.getScore());
+		assertEquals(movieEntity.getScores().size(), result.getCount());
+		assertEquals(result.getCount(), movieEntity.getCount());
 	}
 	
 	@Test
