@@ -123,6 +123,16 @@ public class MovieServiceTests {
 	@Test
 	@DisplayName("Insert Movie Should Return Movie DTO")
 	public void insertShouldReturnMovieDTO() {
+		var result = service.insert(movieDTO);
+
+		verify(repository, times(1)).save(any(MovieEntity.class));
+
+		assertTrue(result instanceof MovieDTO);
+		assertEquals(result.getId(), movieDTO.getId());
+		assertEquals(result.getTitle(), movieDTO.getTitle());
+		assertEquals(result.getScore(), movieDTO.getScore());
+		assertEquals(result.getCount(), movieDTO.getCount());
+		assertEquals(result.getImage(), movieDTO.getImage());
 	}
 	
 	@Test
