@@ -106,5 +106,10 @@ public class UserServiceTests {
 	@Test
 	@DisplayName("Load User By Username Should Throw Username Not Found Exception When User Does Not Exist")
 	public void loadUserByUsernameShouldThrowUsernameNotFoundExceptionWhenUserDoesNotExists() {
+		when(repository.searchUserAndRolesByUsername(noExistingUsername)).thenReturn(List.of());
+
+		assertThrows(UsernameNotFoundException.class, () -> service.loadUserByUsername(noExistingUsername));
+
+		verify(repository, times(1)).searchUserAndRolesByUsername(any(String.class));
 	}
 }
