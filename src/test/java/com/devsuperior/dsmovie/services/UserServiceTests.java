@@ -93,6 +93,14 @@ public class UserServiceTests {
 	@Test
 	@DisplayName("Load User By Username Should Return User Details When User Exists")
 	public void loadUserByUsernameShouldReturnUserDetailsWhenUserExists() {
+		var result = service.loadUserByUsername(existingUsername);
+
+		verify(repository, times(1)).searchUserAndRolesByUsername(existingUsername);
+
+		assertNotNull(result);
+		assertEquals(result.getUsername(), existingUsername);
+		assertEquals(result.getPassword(), userEntity.getPassword());
+		assertTrue(result.getAuthorities().containsAll(List.of(roleEntity)));
 	}
 
 	@Test
