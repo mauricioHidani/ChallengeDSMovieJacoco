@@ -93,6 +93,16 @@ public class MovieServiceTests {
 	@Test
 	@DisplayName("Find By Id Movie Should Return Movie DTO Whe Id Exists")
 	public void findByIdShouldReturnMovieDTOWhenIdExists() {
+		var result = service.findById(1L);
+
+		verify(repository, times(1)).findById(any(Long.class));
+
+		assertTrue(result instanceof MovieDTO);
+		assertEquals(result.getId(), movieDTO.getId());
+		assertEquals(result.getTitle(), movieDTO.getTitle());
+		assertEquals(result.getScore(), movieDTO.getScore());
+		assertEquals(result.getCount(), movieDTO.getCount());
+		assertEquals(result.getImage(), movieDTO.getImage());
 	}
 	
 	@Test
